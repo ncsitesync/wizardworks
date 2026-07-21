@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wizard Works — Exterior Cleaning &amp; Landscape Care</title>
+<meta name="description" content="Wizard Works — pressure washing, soft wash, and landscaping for homes that deserve to look their age, not their grime.">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-deep: #062f30;
+    --teal-mid: #0f8f8f;
+    --teal-bright: #39c0be;
+    --paper: #faf8f3;
+    --ink: #0a1f20;
+    --ink-soft: rgba(10, 31, 32, 0.64);
+    --hairline: rgba(10, 31, 32, 0.12);
+    --hairline-on-dark: rgba(250, 248, 243, 0.16);
+
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+
+    --container: 1240px;
+    --gutter: clamp(1.25rem, 4vw, 3rem);
+
+    --ease: cubic-bezier(.22, .7, .3, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  ::selection { background: var(--teal-bright); color: var(--teal-deep); }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 1rem; z-index: 1000;
+    background: var(--teal-deep); color: var(--paper); padding: 0.85rem 1.25rem;
+    border-radius: 4px; font-weight: 600; text-decoration: none;
+    transition: top 0.2s var(--ease);
+  }
+  .skip-link:focus { top: 1rem; }
+
+  :focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 3px; }
+
+  .container { max-width: var(--container); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+
+  .kicker {
+    font-family: var(--font-body); font-weight: 600; font-size: 0.72rem;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal-mid);
+  }
+  .kicker.on-dark { color: var(--teal-bright); }
+
+  h1, h2, h3 {
+    font-family: var(--font-display); font-weight: 560; text-transform: uppercase;
+    letter-spacing: 0.03em; margin: 0; line-height: 1.05;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.14em;
+    text-transform: uppercase; text-decoration: none; padding: 0.95rem 1.9rem;
+    border-radius: 2px; border: 1.5px solid currentColor; background: transparent; cursor: pointer;
+    transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .btn-outline-light { color: var(--paper); border-color: rgba(250, 248, 243, 0.55); }
+  .btn-outline-light:hover, .btn-outline-light:focus-visible { background: var(--paper); color: var(--teal-deep); }
+  .btn-outline-teal { color: var(--teal-deep); border-color: var(--teal-mid); }
+  .btn-outline-teal:hover, .btn-outline-teal:focus-visible { background: var(--teal-mid); color: var(--paper); border-color: var(--teal-mid); }
+  .btn-solid { background: var(--teal-mid); border-color: var(--teal-mid); color: var(--paper); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: var(--teal-bright); border-color: var(--teal-bright); color: var(--teal-deep); }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    background: transparent; border-bottom: 1px solid transparent;
+    transition: background 0.4s var(--ease), border-color 0.4s var(--ease);
+  }
+  .topbar.scrolled { background: var(--teal-deep); border-bottom-color: var(--hairline-on-dark); }
+  .topbar-inner { display: flex; align-items: center; justify-content: space-between; padding-top: 1.1rem; padding-bottom: 1.1rem; }
+  .brandmark { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+  .brandmark img { height: 34px; width: auto; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.35)); }
+  .brandmark-word {
+    font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.1em;
+    font-size: 0.95rem; font-weight: 600; color: var(--paper);
+  }
+  .brandmark-word small { display: block; font-family: var(--font-body); font-weight: 500; letter-spacing: 0.24em; font-size: 0.55rem; color: var(--teal-bright); margin-top: 0.15rem; }
+
+  .nav-primary { display: flex; align-items: center; gap: 2.4rem; }
+  .nav-links { display: flex; align-items: center; gap: 2.1rem; list-style: none; margin: 0; padding: 0; }
+  .nav-links a {
+    text-decoration: none; color: var(--paper); font-size: 0.76rem; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; position: relative; padding-bottom: 4px;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px;
+    background: var(--teal-bright); transition: right 0.3s var(--ease);
+  }
+  .nav-links a:hover::after, .nav-links a:focus-visible::after { right: 0; }
+
+  .hamburger {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 42px; height: 42px; background: none; border: 1px solid var(--hairline-on-dark);
+    border-radius: 2px; cursor: pointer; padding: 0;
+  }
+  .hamburger span { display: block; height: 1.5px; width: 18px; background: var(--paper); margin: 0 auto; transition: transform 0.3s var(--ease), opacity 0.3s var(--ease); }
+  .hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-drawer {
+    position: fixed; inset: 0; z-index: 490; background: var(--teal-deep);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.2rem;
+    opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease);
+  }
+  .mobile-drawer.open { opacity: 1; pointer-events: auto; }
+  .mobile-drawer a { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.08em; font-size: 1.5rem; color: var(--paper); text-decoration: none; }
+  .mobile-drawer a:hover, .mobile-drawer a:focus-visible { color: var(--teal-bright); }
+
+  /* ---------- Hero ---------- */
+  /* Tall scroll container so there's distance to scrub the video through;
+     the inner wrapper pins via position:sticky while the page scrolls past it. */
+  .hero { position: relative; height: 300vh; background: var(--teal-deep); }
+  .hero-sticky { position: sticky; top: 0; height: 100svh; min-height: 100vh; overflow: hidden; }
+  .hero-media { position: absolute; inset: 0; }
+  .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
+  .hero-veil { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(6,47,48,0.42) 0%, rgba(6,47,48,0.28) 45%, rgba(6,47,48,0.55) 100%); }
+
+  .hero-content {
+    position: relative; z-index: 2; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 7rem var(--gutter) 6rem;
+    will-change: transform, filter, opacity;
+  }
+
+  .hero-logo {
+    width: min(38vw, 300px);
+    margin-top: 0.5rem;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.45));
+    opacity: 0; transform: translateY(16px) scale(0.92);
+  }
+  .hero-logo img {
+    width: 100%; height: auto; object-fit: contain;
+  }
+
+  .hero-kicker { margin-top: 1.4rem; opacity: 0; transform: translateY(10px); }
+  .hero-title { margin-top: 0.6rem; color: var(--paper); font-size: clamp(2.2rem, 6.2vw, 4.9rem); opacity: 0; transform: translateY(16px); }
+  .hero-title span { display: block; }
+  .hero-title em { font-style: italic; font-weight: 340; color: var(--teal-bright); }
+
+  .hero-scrollcue { position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; color: var(--paper); opacity: 0.75; }
+  .hero-scrollcue span { font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 600; }
+  .hero-scrollcue .line { width: 1px; height: 34px; background: rgba(250,248,243,0.5); overflow: hidden; position: relative; }
+  .hero-scrollcue .line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: var(--teal-bright); animation: scrollcue 1.8s var(--ease) infinite; }
+  @keyframes scrollcue { to { top: 100%; } }
+
+  .fade-ready .hero-logo, .fade-ready .hero-kicker, .fade-ready .hero-title {
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  .fade-in .hero-logo { opacity: 1; transform: translateY(0) scale(1); }
+  .fade-in .hero-kicker, .fade-in .hero-title { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo, .hero-kicker, .hero-title { opacity: 1 !important; transform: none !important; }
+    .hero-scrollcue .line::after { animation: none; }
+  }
+
+  /* ---------- Section rhythm ---------- */
+  .section { padding: clamp(4.5rem, 10vw, 8rem) 0; }
+  .section-paper { background: var(--paper); }
+  .section-deep { background: var(--teal-deep); color: var(--paper); }
+
+  .section-head { max-width: 640px; margin: 0 auto 3.2rem; text-align: center; }
+  .section-head h2 { font-size: clamp(1.9rem, 4vw, 2.9rem); margin-top: 0.7rem; }
+  .section-head p { margin-top: 1.1rem; color: var(--ink-soft); font-size: 1rem; }
+
+  /* ---------- Intro ---------- */
+  /* Overrides .section's padding (halved) — scoped to .intro only, other sections untouched. */
+  .intro { text-align: center; padding: clamp(2.25rem, 5vw, 4rem) 0; }
+  .intro-lead {
+    max-width: 780px; margin: 0 auto; font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.4vw, 2.3rem); font-weight: 400; line-height: 1.32;
+    text-transform: none; letter-spacing: 0;
+  }
+  .intro-lead em { font-style: italic; color: var(--teal-mid); }
+  .intro-sub { max-width: 560px; margin: 0.9rem auto 0; color: var(--ink-soft); font-size: 1rem; }
+
+  /* ---------- Grid tiles ---------- */
+  .tile-grid { display: grid; gap: 1.6rem; }
+  .work-grid { grid-template-columns: repeat(3, 1fr); }
+  .work-grid .tile:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+
+  .tile { position: relative; overflow: hidden; border-radius: 4px; background: var(--teal-deep); }
+  .tile img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; transition: transform 0.6s var(--ease); }
+  .work-grid .tile:nth-child(1) img { aspect-ratio: 1; height: 100%; }
+  .tile:hover img, .tile:focus-within img { transform: scale(1.06); }
+  .tile-caption { position: absolute; inset: auto 0 0 0; padding: 1.4rem 1.2rem 1.1rem; background: linear-gradient(to top, rgba(6,47,48,0.86), rgba(6,47,48,0)); color: var(--paper); }
+  .tile-caption .kicker { color: var(--teal-bright); }
+  .tile-caption h3 { font-size: 1rem; text-transform: none; letter-spacing: 0.01em; margin-top: 0.3rem; font-weight: 500; }
+
+  @media (prefers-reduced-motion: reduce) { .tile img { transition: none; } }
+
+  /* ---------- Services ---------- */
+  .services-grid { grid-template-columns: repeat(3, 1fr); }
+  .service-card { background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 2.2rem 1.9rem; display: flex; flex-direction: column; gap: 1rem; }
+  .service-card h3 { font-size: 1.25rem; letter-spacing: 0.02em; margin-top: 0.4rem; }
+  .service-card p { color: var(--ink-soft); font-size: 0.94rem; margin: 0; flex: 1; }
+  .service-card .tile { aspect-ratio: 16/10; margin: -2.2rem -1.9rem 0.3rem; border-radius: 4px 4px 0 0; }
+  .service-card .tile img { aspect-ratio: 16/10; }
+  .service-link { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-mid); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; }
+  .service-link:hover, .service-link:focus-visible { color: var(--teal-bright); }
+
+  /* ---------- About band ---------- */
+  .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+  .about-copy .kicker { margin-bottom: 0.9rem; }
+  .about-copy h2 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+  .about-copy p { margin-top: 1.3rem; color: rgba(250,248,243,0.78); font-size: 1.02rem; max-width: 46ch; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .stat-card { background: rgba(250,248,243,0.06); backdrop-filter: blur(10px); border: 1px solid var(--hairline-on-dark); border-radius: 4px; padding: 1.7rem 1.4rem; }
+  .stat-card .stat-num { font-family: var(--font-display); font-size: clamp(1.9rem, 3vw, 2.5rem); color: var(--teal-bright); }
+  .stat-card .stat-label { margin-top: 0.4rem; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,248,243,0.65); }
+
+  /* ---------- Contact CTA ---------- */
+  .contact-inner { text-align: center; max-width: 680px; margin: 0 auto; }
+  .contact-inner h2 { font-size: clamp(2rem, 4.6vw, 3.2rem); }
+  .contact-inner p { margin-top: 1.2rem; color: var(--ink-soft); font-size: 1.05rem; }
+  .contact-actions { margin-top: 2.2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ---------- Footer ---------- */
+  .site-footer { background: var(--teal-deep); color: rgba(250,248,243,0.82); padding-top: clamp(4rem, 8vw, 6rem); }
+  .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--hairline-on-dark); }
+  .footer-brand .brandmark-word { font-size: 1.3rem; }
+  .footer-tagline { margin-top: 1.1rem; font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: rgba(250,248,243,0.7); max-width: 26ch; }
+  .footer-col h4 { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-bright); margin: 0 0 1.1rem; font-family: var(--font-body); font-weight: 700; }
+  .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  .footer-col a { text-decoration: none; font-size: 0.9rem; color: rgba(250,248,243,0.82); }
+  .footer-col a:hover, .footer-col a:focus-visible { color: var(--teal-bright); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.6rem 0; font-size: 0.78rem; color: rgba(250,248,243,0.5); flex-wrap: wrap; }
+  .footer-bottom ul { list-style: none; display: flex; gap: 1.4rem; margin: 0; padding: 0; }
+  .footer-bottom a { text-decoration: none; color: rgba(250,248,243,0.5); }
+  .footer-bottom a:hover, .footer-bottom a:focus-visible { color: var(--teal-bright); }
+
+  @media (max-width: 980px) {
+    .nav-primary .nav-links, .nav-primary .btn { display: none; }
+    .hamburger { display: flex; }
+    .work-grid { grid-template-columns: repeat(2, 1fr); }
+    .work-grid .tile:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    .work-grid .tile:nth-child(1) img { aspect-ratio: 16/9; height: auto; }
+    .services-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    .stat-grid { margin-top: 1rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .work-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .contact-actions { flex-direction: column; align-items: stretch; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar" id="topbar">
+  <div class="container topbar-inner">
+    <a class="brandmark" href="#top">
+      <img src="logo.png" alt="Wizard Works icon" width="34" height="34">
+      <span class="brandmark-word">Wizard Works<small>Exterior &amp; Landscape Care</small></span>
+    </a>
+    <div class="nav-primary">
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a class="btn btn-outline-light" href="#contact">Free Quote</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-drawer" id="mobile-drawer" aria-label="Mobile">
+  <a href="#work">Work</a>
+  <a href="#services">Services</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn btn-outline-light" style="margin-top:1rem;">Free Quote</a>
+</nav>
+
+<main id="main">
+
+  <section class="hero" id="hero">
+    <a id="top"></a>
+    <div class="hero-sticky" id="heroSticky">
+      <div class="hero-media" id="heroMedia">
+        <video id="heroVideo" muted playsinline preload="auto" aria-hidden="true">
+          <source src="herovideo-scrub.mp4" type="video/mp4">
+        </video>
+        <div class="hero-veil"></div>
+      </div>
+
+      <div class="hero-content" id="heroContent">
+        <div class="hero-logo"><img src="logo.png" alt="Wizard Works — crossed pressure-washing wand and shovel mark"></div>
+        <p class="kicker on-dark hero-kicker">Pressure Washing · Soft Wash · Landscaping</p>
+        <h1 class="hero-title">
+          <span>Brought Back</span>
+          <span><em>to Light</em></span>
+        </h1>
+      </div>
+
+      <div class="hero-scrollcue" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="line"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-paper intro">
+    <div class="container">
+      <p class="kicker">Our Approach</p>
+      <p class="intro-lead" style="margin-top:1.1rem;">Every exterior holds up better than you'd guess — it just needs <em>the grime gone</em> and the edges sharpened.</p>
+      <p class="intro-sub">Wizard Works handles the parts of a property that quietly age it: green-streaked siding, mossy walkways, tired beds and borders. We clean what's dulled and shape what's grown wild, so the house you already love looks like it again.</p>
+    </div>
+  </section>
+
+  <section class="section section-paper" id="work">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">Recent Work</p>
+        <h2>A Few Recent Transformations</h2>
+        <p>Placeholder set — drop real project photography into <code>images/</code> to replace these.</p>
+      </div>
+      <div class="tile-grid work-grid">
+        <a class="tile" href="#work" tabindex="0">
+          <img src="images/placeholder-1.jpg" alt="Placeholder — recent project photo 1">
+          <div class="tile-caption"><p class="kicker">Soft Wash</p><h3>Roof &amp; Siding Refresh</h3></div>
+        </a>
+        <a class="tile" href="#work" tabindex="0">
+          <img src="images/placeholder-2.jpg" alt="Placeholder — recent project photo 2">
+          <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Bed &amp; Border Reset</h3></div>
+        </a>
+        <a class="tile" href="#work" tabindex="0">
+          <img src="images/placeholder-3.jpg" alt="Placeholder — recent project photo 3">
+          <div class="tile-caption"><p class="kicker">Pressure Washing</p><h3>Cape Cod Full Exterior</h3></div>
+        </a>
+        <a class="tile" href="#work" tabindex="0">
+          <img src="images/placeholder-4.jpg" alt="Placeholder — recent project photo 4">
+          <div class="tile-caption"><p class="kicker">Hardscape</p><h3>Walkway &amp; Patio Wash</h3></div>
+        </a>
+        <a class="tile" href="#work" tabindex="0">
+          <img src="images/placeholder-5.jpg" alt="Placeholder — recent project photo 5">
+          <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Seasonal Cleanup</h3></div>
+        </a>
+        <a class="tile" href="#work" tabindex="0">
+          <img src="images/placeholder-6.jpg" alt="Placeholder — recent project photo 6">
+          <div class="tile-caption"><p class="kicker">Pressure Washing</p><h3>Driveway Restoration</h3></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-paper" id="services">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">Services</p>
+        <h2>What We Do</h2>
+        <p>Three services, one crew — so the outside of your property gets treated as one connected job, not three separate ones.</p>
+      </div>
+      <div class="tile-grid services-grid">
+        <div class="service-card">
+          <div class="tile"><img src="images/placeholder-1.jpg" alt="Placeholder — pressure washing service"></div>
+          <h3>Pressure Washing</h3>
+          <p>High-pressure cleaning for driveways, patios, decks, and hardscape — built to lift years of ground-in dirt without damaging the surface underneath.</p>
+          <a class="service-link" href="#contact">Get a Quote →</a>
+        </div>
+        <div class="service-card">
+          <div class="tile"><img src="images/placeholder-2.jpg" alt="Placeholder — soft wash service"></div>
+          <h3>Soft Wash</h3>
+          <p>Low-pressure, chemical-assisted cleaning for roofs and siding — removes algae, mold, and streaking at the root, gently enough for delicate materials.</p>
+          <a class="service-link" href="#contact">Get a Quote →</a>
+        </div>
+        <div class="service-card">
+          <div class="tile"><img src="images/placeholder-3.jpg" alt="Placeholder — landscaping service"></div>
+          <h3>Landscaping</h3>
+          <p>Bed maintenance, mulching, trimming, and seasonal cleanup — the ongoing care that keeps a freshly-washed property looking that way.</p>
+          <a class="service-link" href="#contact">Get a Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-deep" id="about">
+    <div class="container about-grid">
+      <div class="about-copy">
+        <p class="kicker on-dark">About Wizard Works</p>
+        <h2>Local Crew.<br>Honest Work.</h2>
+        <p>We started Wizard Works on a simple bet: most homes don't need replacing, they need restoring. A clean roofline and a tended bed do more for a property's first impression than almost anything else — and cost a fraction as much. That's still the whole job today, just at a bigger scale.</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Properties Serviced</div></div>
+        <div class="stat-card"><div class="stat-num">8 Yrs</div><div class="stat-label">In Business</div></div>
+        <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Satisfaction Guarantee</div></div>
+        <div class="stat-card"><div class="stat-num">5.0★</div><div class="stat-label">Average Rating</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-paper" id="contact">
+    <div class="container contact-inner">
+      <p class="kicker">Get Started</p>
+      <h2>Let's See What's<br>Underneath</h2>
+      <p>Tell us about your property and we'll put together a free, no-pressure quote — usually within one business day.</p>
+      <div class="contact-actions">
+        <a class="btn btn-solid" href="mailto:hello@wizardworks.example">Request a Free Quote</a>
+        <a class="btn btn-outline-teal" href="tel:+15551234567">Call (555) 123-4567</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <a class="brandmark" href="#top">
+        <img src="logo.png" alt="Wizard Works icon" width="30" height="30">
+        <span class="brandmark-word">Wizard Works</span>
+      </a>
+      <p class="footer-tagline">Brought back to light, one property at a time.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#work">Recent Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Pressure Washing</a></li>
+        <li><a href="#services">Soft Wash</a></li>
+        <li><a href="#services">Landscaping</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+15551234567">(555) 123-4567</a></li>
+        <li><a href="mailto:hello@wizardworks.example">hello@wizardworks.example</a></li>
+        <li><a href="#contact">Sampson County, NC &amp; surrounding areas</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Wizard Works. All rights reserved.</span>
+    <ul>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var topbar = document.getElementById('topbar');
+  var hero = document.getElementById('hero');
+  var heroContent = document.getElementById('heroContent');
+  var video = document.getElementById('heroVideo');
+  var videoReady = false;
+
+  /* Entrance: logo eases in, then kicker + title fade up in sequence */
+  if (reduceMotion) {
+    heroContent.classList.add('fade-ready', 'fade-in');
+  } else {
+    heroContent.classList.add('fade-ready');
+    window.requestAnimationFrame(function () {
+      setTimeout(function () { heroContent.classList.add('fade-in'); }, 150);
+    });
+  }
+
+  /* No fallback, no autoplay, no .play() anywhere. The video only ever moves
+     because currentTime is set from scroll position — wait for loadedmetadata
+     before scrubbing starts. */
+  video.addEventListener('loadedmetadata', function () {
+    videoReady = true;
+  });
+
+  /* progress = clamp((scrollY - heroTop) / (heroHeight - viewportHeight), 0, 1).
+     Driven by a continuously self-scheduling requestAnimationFrame loop that
+     lerps a displayTime toward the scroll-derived target by ~0.15 per frame,
+     so seeking eases smoothly instead of snapping. */
+  var heroTop = 0, heroHeight = 0, viewportHeight = 0;
+  function measure() {
+    var rect = hero.getBoundingClientRect();
+    heroTop = rect.top + window.scrollY;
+    heroHeight = hero.offsetHeight;
+    viewportHeight = window.innerHeight;
+  }
+  measure();
+  window.addEventListener('resize', measure);
+
+  var displayTime = 0;
+  var lastAppliedTime = -1;
+  var lastLoggedProgress = -1;
+  var lastLoggedTime = -1;
+  var LERP = 0.15;
+  var SEEK_EPS = 0.004;
+
+  function easeInCubic(t) { return t * t * t; }
+
+  function frameStep() {
+    var range = heroHeight - viewportHeight;
+    var progress = range > 0 ? Math.min(Math.max((window.scrollY - heroTop) / range, 0), 1) : 0;
+
+    topbar.classList.toggle('scrolled', progress > 0.6);
+
+    var hasDuration = videoReady && video.duration && !isNaN(video.duration) && video.duration > 0;
+    if (hasDuration) {
+      var targetTime = progress * video.duration;
+      displayTime += (targetTime - displayTime) * LERP;
+      if (Math.abs(targetTime - displayTime) < 0.005) displayTime = targetTime; // snap the last sliver so it fully settles
+      if (Math.abs(displayTime - lastAppliedTime) > SEEK_EPS) {
+        video.currentTime = displayTime;
+        lastAppliedTime = displayTime;
+      }
+    }
+
+    /* Logo + text hold for the first ~60% of the scrub, then ease out
+       (easeInCubic) over the last ~40% as the real content below arrives. */
+    if (!reduceMotion) {
+      var local = progress > 0.6 ? Math.min((progress - 0.6) / 0.4, 1) : 0;
+      var eased = easeInCubic(local);
+      heroContent.style.opacity = String(1 - eased);
+      heroContent.style.transform = 'translateY(' + (-60 * eased) + 'px)';
+      heroContent.style.filter = 'blur(' + (5 * eased) + 'px)';
+    }
+
+    /* Log on real change — either progress moved, or the lerp is still
+       catching displayTime up to a new target — so the last logged line
+       always reflects the true settled currentTime, not a stale mid-lerp one. */
+    var curTimeForLog = hasDuration ? video.currentTime : -1;
+    if (Math.abs(progress - lastLoggedProgress) > 0.001 || Math.abs(curTimeForLog - lastLoggedTime) > 0.005) {
+      lastLoggedProgress = progress;
+      lastLoggedTime = curTimeForLog;
+      console.log('[hero scrub] progress=' + progress.toFixed(3) + ' currentTime=' + (hasDuration ? video.currentTime.toFixed(2) : 'n/a (video not ready)'));
+    }
+
+    window.requestAnimationFrame(frameStep);
+  }
+
+  window.requestAnimationFrame(frameStep);
+
+  /* Mobile menu */
+  var hamburger = document.getElementById('hamburger');
+  var drawer = document.getElementById('mobile-drawer');
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-label', 'Open menu');
+  }
+  function openDrawer() {
+    drawer.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    hamburger.setAttribute('aria-label', 'Close menu');
+  }
+  hamburger.addEventListener('click', function () {
+    if (drawer.classList.contains('open')) closeDrawer(); else openDrawer();
+  });
+  drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrawer(); });
+})();
+</script>
+
+</body>
+</html>
