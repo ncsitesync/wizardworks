@@ -310,7 +310,7 @@
     <a id="top"></a>
     <div class="hero-sticky" id="heroSticky">
       <div class="hero-media" id="heroMedia">
-        <video id="heroVideo" muted playsinline preload="auto" aria-hidden="true">
+        <video id="heroVideo" muted playsinline webkit-playsinline="true" preload="auto" aria-hidden="true">
           <source src="herovideo.mp4" type="video/mp4">
         </video>
         <div class="hero-veil"></div>
@@ -500,12 +500,54 @@
     });
   }
 
-  /* No fallback, no autoplay, no .play() anywhere. The video only ever moves
-     because currentTime is set from scroll position — wait for loadedmetadata
-     before scrubbing starts. */
+  /* The video only ever moves because currentTime is set from scroll position
+     — wait for loadedmetadata (valid duration) before scrubbing starts. */
   video.addEventListener('loadedmetadata', function () {
-    videoReady = true;
+    if (video.duration && !isNaN(video.duration) && video.duration > 0) {
+      videoReady = true;
+    }
   });
+
+  /* Mobile can silently ignore preload hints — force it. */
+  try { video.load(); } catch (e) {}
+
+  /* iOS won't seek/render a video that hasn't been "activated" by a real
+     play() call from inside a user-gesture handler, even muted+playsinline.
+     Unlock once on first touch/scroll: play() then immediately pause(), with
+     the scrub loop blocked from touching currentTime while that's in flight
+     so no frame of real playback is ever visible. */
+  var unlocked = false;
+  var unlocking = false;
+  function unlockVideo() {
+    if (unlocked) return;
+    unlocked = true;
+    unlocking = true;
+    try {
+      var p = video.play();
+      function finish() {
+        try { video.pause(); } catch (e) {}
+        unlocking = false;
+      }
+      if (p && typeof p.then === 'function') { p.then(finish).catch(finish); }
+      else { finish(); }
+    } catch (e) {
+      unlocking = false;
+    }
+  }
+  window.addEventListener('touchstart', unlockVideo, { once: true, passive: true });
+  window.addEventListener('scroll', unlockVideo, { once: true, passive: true });
+
+  /* Fallback: some mobile browsers never resolve a usable duration at all.
+     If we're still not ready after ~1.5s, try a poster image — but only if
+     it actually exists (probe first so we never leave a 404'd reference).
+     If it doesn't exist, the video element is left exactly as-is; nothing
+     hides it, so it keeps showing whatever it has rather than going blank. */
+  setTimeout(function () {
+    if (videoReady) return;
+    var probe = new Image();
+    probe.onload = function () { video.poster = 'hero-poster.jpg'; };
+    probe.src = 'hero-poster.jpg';
+  }, 1500);
 
   /* progress = clamp((scrollY - heroTop) / (heroHeight - viewportHeight), 0, 1).
      Driven by a continuously self-scheduling requestAnimationFrame loop that
@@ -537,7 +579,7 @@
     topbar.classList.toggle('scrolled', progress > 0.6);
 
     var hasDuration = videoReady && video.duration && !isNaN(video.duration) && video.duration > 0;
-    if (hasDuration) {
+    if (hasDuration && !unlocking) {
       var targetTime = progress * video.duration;
       displayTime += (targetTime - displayTime) * LERP;
       if (Math.abs(targetTime - displayTime) < 0.005) displayTime = targetTime; // snap the last sliver so it fully settles
