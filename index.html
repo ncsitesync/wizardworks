@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wizard Works — Exterior Cleaning &amp; Landscape Care</title>
-<meta name="description" content="Wizard Works — pressure washing, soft wash, and landscaping for homes that deserve to look their age, not their grime.">
+<title>Wizard Works — Professional Landscaping &amp; Outdoor Solutions</title>
+<meta name="description" content="Wizard Works — Concrete, Landscaping &amp; Hardscaping for Raleigh, NC and surrounding counties. Free estimates. Commercial &amp; residential. Your Yard, Our Magical Touch.">
 <link rel="icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,7 +133,7 @@
   /* ---------- Hero ---------- */
   /* Tall scroll container so there's distance to scrub the video through;
      the inner wrapper pins via position:sticky while the page scrolls past it. */
-  .hero { position: relative; height: 300vh; background: var(--teal-deep); }
+  .hero { position: relative; height: 150vh; background: var(--teal-deep); }
   .hero-sticky { position: sticky; top: 0; height: 100svh; min-height: 100vh; overflow: hidden; }
   .hero-media { position: absolute; inset: 0; }
   .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
@@ -187,6 +187,13 @@
   .section-head h2 { font-size: clamp(1.9rem, 4vw, 2.9rem); margin-top: 0.7rem; }
   .section-head p { margin-top: 1.1rem; color: var(--ink-soft); font-size: 1rem; }
 
+  .badge-row { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 1.3rem; }
+  .badge {
+    display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal-mid); border: 1px solid var(--hairline);
+    border-radius: 999px; padding: 0.45rem 0.9rem;
+  }
+
   /* ---------- Intro ---------- */
   /* Overrides .section's padding (halved) — scoped to .intro only, other sections untouched. */
   .intro { text-align: center; padding: clamp(2.25rem, 5vw, 4rem) 0; }
@@ -200,12 +207,19 @@
 
   /* ---------- Grid tiles ---------- */
   .tile-grid { display: grid; gap: 1.6rem; }
-  .work-grid { grid-template-columns: repeat(3, 1fr); }
-  .work-grid .tile:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+
+  /* Editorial gallery layout: tile 1 is a full-width feature banner, tiles
+     2-5 form a row beneath it with alternating portrait/landscape aspect
+     ratios so the heights zigzag — a deliberate, staggered feel with zero
+     grid-gap risk (every tile still occupies exactly one full grid cell). */
+  .work-grid { grid-template-columns: repeat(4, 1fr); }
+  .work-grid .tile:nth-child(1) { grid-column: 1 / -1; }
+  .work-grid .tile:nth-child(1) img { aspect-ratio: 21 / 9; height: auto; }
+  .work-grid .tile:nth-child(2) img, .work-grid .tile:nth-child(4) img { aspect-ratio: 3 / 4; height: auto; }
+  .work-grid .tile:nth-child(3) img, .work-grid .tile:nth-child(5) img { aspect-ratio: 4 / 3; height: auto; }
 
   .tile { position: relative; overflow: hidden; border-radius: 4px; background: var(--teal-deep); }
   .tile img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; transition: transform 0.6s var(--ease); }
-  .work-grid .tile:nth-child(1) img { aspect-ratio: 1; height: 100%; }
   .tile:hover img, .tile:focus-within img { transform: scale(1.06); }
   .tile-caption { position: absolute; inset: auto 0 0 0; padding: 1.4rem 1.2rem 1.1rem; background: linear-gradient(to top, rgba(6,47,48,0.86), rgba(6,47,48,0)); color: var(--paper); }
   .tile-caption .kicker { color: var(--teal-bright); }
@@ -258,8 +272,6 @@
     .nav-primary .nav-links, .nav-primary .btn { display: none; }
     .hamburger { display: flex; }
     .work-grid { grid-template-columns: repeat(2, 1fr); }
-    .work-grid .tile:nth-child(1) { grid-column: span 2; grid-row: span 1; }
-    .work-grid .tile:nth-child(1) img { aspect-ratio: 16/9; height: auto; }
     .services-grid { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; }
     .stat-grid { margin-top: 1rem; }
@@ -267,6 +279,7 @@
   }
   @media (max-width: 560px) {
     .work-grid { grid-template-columns: 1fr; }
+    .work-grid .tile:nth-child(1) img { aspect-ratio: 16 / 9; }
     .footer-top { grid-template-columns: 1fr; }
     .contact-actions { flex-direction: column; align-items: stretch; }
   }
@@ -279,7 +292,7 @@
   <div class="container topbar-inner">
     <a class="brandmark" href="#top">
       <img src="logo.png" alt="Wizard Works icon" width="34" height="34">
-      <span class="brandmark-word">Wizard Works<small>Exterior &amp; Landscape Care</small></span>
+      <span class="brandmark-word">Wizard Works<small>Landscaping &amp; Outdoor Solutions</small></span>
     </a>
     <div class="nav-primary">
       <ul class="nav-links">
@@ -318,7 +331,7 @@
 
       <div class="hero-content" id="heroContent">
         <div class="hero-logo"><img src="logo.png" alt="Wizard Works — crossed pressure-washing wand and shovel mark"></div>
-        <p class="kicker on-dark hero-kicker">Pressure Washing · Soft Wash · Landscaping</p>
+        <p class="kicker on-dark hero-kicker">Concrete • Landscaping • Hardscaping</p>
         <h1 class="hero-title">
           <span>Brought Back</span>
           <span><em>to Light</em></span>
@@ -335,8 +348,8 @@
   <section class="section section-paper intro">
     <div class="container">
       <p class="kicker">Our Approach</p>
-      <p class="intro-lead" style="margin-top:1.1rem;">Every exterior holds up better than you'd guess — it just needs <em>the grime gone</em> and the edges sharpened.</p>
-      <p class="intro-sub">Wizard Works handles the parts of a property that quietly age it: green-streaked siding, mossy walkways, tired beds and borders. We clean what's dulled and shape what's grown wild, so the house you already love looks like it again.</p>
+      <p class="intro-lead" style="margin-top:1.1rem;">Every yard has good bones — it just needs <em>the right hands</em> to bring them out.</p>
+      <p class="intro-sub">Wizard Works handles the outdoor work that actually transforms a property: clean concrete flatwork, hardscaping that's built to last, and landscaping that gets maintained, not just installed. Commercial or residential, we treat every yard like it's the one we'll be back to next season.</p>
     </div>
   </section>
 
@@ -345,32 +358,28 @@
       <div class="section-head">
         <p class="kicker">Recent Work</p>
         <h2>A Few Recent Transformations</h2>
-        <p>Placeholder set — drop real project photography into <code>images/</code> to replace these.</p>
+        <p>A sample of completed projects — drop your own project photography into <code>images/</code> to replace these.</p>
       </div>
       <div class="tile-grid work-grid">
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/placeholder-1.jpg" alt="Placeholder — recent project photo 1">
-          <div class="tile-caption"><p class="kicker">Soft Wash</p><h3>Roof &amp; Siding Refresh</h3></div>
+          <img src="images/gallery-1.jpg" alt="Recent project photo 1">
+          <div class="tile-caption"><p class="kicker">Hardscaping</p><h3>Patio &amp; Walkway Build</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/placeholder-2.jpg" alt="Placeholder — recent project photo 2">
+          <img src="images/gallery-2.jpg" alt="Recent project photo 2">
           <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Bed &amp; Border Reset</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/placeholder-3.jpg" alt="Placeholder — recent project photo 3">
-          <div class="tile-caption"><p class="kicker">Pressure Washing</p><h3>Cape Cod Full Exterior</h3></div>
+          <img src="images/gallery-3.jpg" alt="Recent project photo 3">
+          <div class="tile-caption"><p class="kicker">Concrete</p><h3>Driveway Pour</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/placeholder-4.jpg" alt="Placeholder — recent project photo 4">
-          <div class="tile-caption"><p class="kicker">Hardscape</p><h3>Walkway &amp; Patio Wash</h3></div>
-        </a>
-        <a class="tile" href="#work" tabindex="0">
-          <img src="images/placeholder-5.jpg" alt="Placeholder — recent project photo 5">
+          <img src="images/gallery-4.jpg" alt="Recent project photo 4">
           <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Seasonal Cleanup</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/placeholder-6.jpg" alt="Placeholder — recent project photo 6">
-          <div class="tile-caption"><p class="kicker">Pressure Washing</p><h3>Driveway Restoration</h3></div>
+          <img src="images/gallery-5.jpg" alt="Recent project photo 5">
+          <div class="tile-caption"><p class="kicker">Hardscaping</p><h3>Retaining Wall</h3></div>
         </a>
       </div>
     </div>
@@ -382,24 +391,28 @@
         <p class="kicker">Services</p>
         <h2>What We Do</h2>
         <p>Three services, one crew — so the outside of your property gets treated as one connected job, not three separate ones.</p>
+        <div class="badge-row">
+          <span class="badge">Free Estimates</span>
+          <span class="badge">Commercial &amp; Residential Services</span>
+        </div>
       </div>
       <div class="tile-grid services-grid">
         <div class="service-card">
-          <div class="tile"><img src="images/placeholder-1.jpg" alt="Placeholder — pressure washing service"></div>
-          <h3>Pressure Washing</h3>
-          <p>High-pressure cleaning for driveways, patios, decks, and hardscape — built to lift years of ground-in dirt without damaging the surface underneath.</p>
+          <div class="tile"><img src="images/gallery-3.jpg" alt="Concrete service example"></div>
+          <h3>Concrete</h3>
+          <p>Driveways, patios, walkways, and pads — poured and finished to hold up under real use, not just look good on install day.</p>
           <a class="service-link" href="#contact">Get a Quote →</a>
         </div>
         <div class="service-card">
-          <div class="tile"><img src="images/placeholder-2.jpg" alt="Placeholder — soft wash service"></div>
-          <h3>Soft Wash</h3>
-          <p>Low-pressure, chemical-assisted cleaning for roofs and siding — removes algae, mold, and streaking at the root, gently enough for delicate materials.</p>
-          <a class="service-link" href="#contact">Get a Quote →</a>
-        </div>
-        <div class="service-card">
-          <div class="tile"><img src="images/placeholder-3.jpg" alt="Placeholder — landscaping service"></div>
+          <div class="tile"><img src="images/gallery-2.jpg" alt="Landscaping service example"></div>
           <h3>Landscaping</h3>
-          <p>Bed maintenance, mulching, trimming, and seasonal cleanup — the ongoing care that keeps a freshly-washed property looking that way.</p>
+          <p>Bed design, mulching, trimming, and seasonal cleanup — the ongoing care that keeps a property looking sharp all year, not just after install.</p>
+          <a class="service-link" href="#contact">Get a Quote →</a>
+        </div>
+        <div class="service-card">
+          <div class="tile"><img src="images/gallery-5.jpg" alt="Hardscaping service example"></div>
+          <h3>Hardscaping</h3>
+          <p>Retaining walls, walkways, and outdoor living spaces — the structural work that gives a landscape its shape and holds it there.</p>
           <a class="service-link" href="#contact">Get a Quote →</a>
         </div>
       </div>
@@ -411,7 +424,7 @@
       <div class="about-copy">
         <p class="kicker on-dark">About Wizard Works</p>
         <h2>Local Crew.<br>Honest Work.</h2>
-        <p>We started Wizard Works on a simple bet: most homes don't need replacing, they need restoring. A clean roofline and a tended bed do more for a property's first impression than almost anything else — and cost a fraction as much. That's still the whole job today, just at a bigger scale.</p>
+        <p>We started Wizard Works on a simple bet: most properties don't need replacing, they need well-built outdoor space. Solid concrete, a landscape that's actually maintained, and hardscaping that holds up — that's still the whole job today, just at a bigger scale.</p>
       </div>
       <div class="stat-grid">
         <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Properties Serviced</div></div>
@@ -425,11 +438,12 @@
   <section class="section section-paper" id="contact">
     <div class="container contact-inner">
       <p class="kicker">Get Started</p>
-      <h2>Let's See What's<br>Underneath</h2>
-      <p>Tell us about your property and we'll put together a free, no-pressure quote — usually within one business day.</p>
+      <h2>Let's Build<br>Something Better</h2>
+      <p>Tell us about your property and we'll put together a free, no-pressure estimate — usually within one business day.</p>
+      <p class="intro-sub" style="margin-top:0.6rem;">Serving Raleigh, NC and surrounding Wake, Harnett, Johnston, Sampson, Duplin, Wayne, Cumberland &amp; Bladen Counties.</p>
       <div class="contact-actions">
-        <a class="btn btn-solid" href="mailto:hello@wizardworks.example">Request a Free Quote</a>
-        <a class="btn btn-outline-teal" href="tel:+15551234567">Call (555) 123-4567</a>
+        <a class="btn btn-solid" href="mailto:hello@wizardworks.example">Request a Free Estimate</a>
+        <a class="btn btn-outline-teal" href="tel:+19108474301">Call (910) 847-4301</a>
       </div>
     </div>
   </section>
@@ -443,7 +457,7 @@
         <img src="logo.png" alt="Wizard Works icon" width="30" height="30">
         <span class="brandmark-word">Wizard Works</span>
       </a>
-      <p class="footer-tagline">Brought back to light, one property at a time.</p>
+      <p class="footer-tagline">Your Yard, Our Magical Touch.</p>
     </div>
     <div class="footer-col">
       <h4>Company</h4>
@@ -457,17 +471,17 @@
     <div class="footer-col">
       <h4>Services</h4>
       <ul>
-        <li><a href="#services">Pressure Washing</a></li>
-        <li><a href="#services">Soft Wash</a></li>
+        <li><a href="#services">Concrete</a></li>
         <li><a href="#services">Landscaping</a></li>
+        <li><a href="#services">Hardscaping</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li><a href="tel:+15551234567">(555) 123-4567</a></li>
+        <li><a href="tel:+19108474301">(910) 847-4301</a></li>
         <li><a href="mailto:hello@wizardworks.example">hello@wizardworks.example</a></li>
-        <li><a href="#contact">Sampson County, NC &amp; surrounding areas</a></li>
+        <li><a href="#contact">Serving Raleigh, NC &amp; Wake, Harnett, Johnston, Sampson, Duplin, Wayne, Cumberland &amp; Bladen Counties</a></li>
       </ul>
     </div>
   </div>
