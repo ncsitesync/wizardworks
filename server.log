@@ -1,0 +1,15 @@
+::ffff:127.0.0.1 - - [22/Jul/2026 01:46:29] "GET /index.html HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:38] "GET /index.html HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /hero-poster.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /afterslider.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /beforeslider.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /logo.png HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /sidehousebefore.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /imagegate.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /burgerkingbefore.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /sidehouseafter.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /burgerkingafter.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /images/gallery-3.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /images/gallery-2.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /images/gallery-5.jpg HTTP/1.1" 200 -
+::1 - - [22/Jul/2026 01:46:39] "GET /herovideo.mp4 HTTP/1.1" 200 -
