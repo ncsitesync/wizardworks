@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wizard Works — Professional Landscaping &amp; Outdoor Solutions</title>
-<meta name="description" content="Wizard Works — Concrete, Landscaping &amp; Hardscaping for Raleigh, NC and surrounding counties. Free estimates. Commercial &amp; residential. Your Yard, Our Magical Touch.">
+<meta name="description" content="Wizard Works — Driveways, Landscaping &amp; Hardscaping for Raleigh, NC and surrounding counties. Free estimates. Commercial &amp; residential. Your Yard, Our Magical Touch.">
 <link rel="icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -205,6 +205,44 @@
   .intro-lead em { font-style: italic; color: var(--teal-mid); }
   .intro-sub { max-width: 560px; margin: 0.9rem auto 0; color: var(--ink-soft); font-size: 1rem; }
 
+  /* ---------- Before/After slider ---------- */
+  .ba-section { text-align: center; padding-top: 0; }
+  .ba-intro { max-width: 560px; margin: 0.8rem auto 2.4rem; color: var(--ink-soft); font-size: 1rem; }
+  .ba-slider {
+    position: relative; width: 100%; max-width: 560px; aspect-ratio: 3 / 4; margin: 0 auto;
+    overflow: hidden; border-radius: 4px; background: var(--teal-deep);
+    cursor: ew-resize; touch-action: pan-y; -webkit-user-select: none; user-select: none;
+    box-shadow: 0 1.5rem 3rem rgba(6, 47, 48, 0.18);
+  }
+  .ba-slider:focus-visible { outline: 2px solid var(--teal-mid); outline-offset: 4px; }
+  .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  /* Clipping wrapper's width is JS-driven (--pos). The before image inside is sized to the
+     slider's FULL width (--full-w, also JS-driven) rather than 100%, so it doesn't shrink as
+     the wrap narrows — custom properties inherit through the clipped wrapper unaffected. */
+  .ba-before-wrap { position: absolute; inset: 0; width: var(--pos, 50%); overflow: hidden; }
+  .ba-before-wrap .ba-before { width: var(--full-w, 100%); max-width: none; }
+  .ba-tag {
+    position: absolute; top: 1rem; z-index: 2; font-family: var(--font-body); font-weight: 700;
+    font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper);
+    background: rgba(6, 47, 48, 0.55); backdrop-filter: blur(6px); padding: 0.4rem 0.8rem; border-radius: 2px;
+  }
+  .ba-tag-before { left: 1rem; }
+  .ba-tag-after { right: 1rem; }
+  .ba-handle {
+    position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 0; z-index: 3;
+    display: flex; align-items: center; justify-content: center; pointer-events: none;
+  }
+  .ba-handle::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
+    background: var(--paper); transform: translateX(-50%); box-shadow: 0 0 0 1px rgba(6, 47, 48, 0.25);
+  }
+  .ba-handle-grip {
+    position: relative; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--paper);
+    color: var(--teal-deep); display: flex; align-items: center; justify-content: center; gap: 0.1rem;
+    box-shadow: 0 0.4rem 1rem rgba(6, 47, 48, 0.3);
+  }
+  @media (max-width: 560px) { .ba-slider { aspect-ratio: 3 / 4.3; } }
+
   /* ---------- Grid tiles ---------- */
   .tile-grid { display: grid; gap: 1.6rem; }
 
@@ -214,7 +252,9 @@
      grid-gap risk (every tile still occupies exactly one full grid cell). */
   .work-grid { grid-template-columns: repeat(4, 1fr); }
   .work-grid .tile:nth-child(1) { grid-column: 1 / -1; }
-  .work-grid .tile:nth-child(1) img { aspect-ratio: 21 / 9; height: auto; }
+  /* imagegate.jpg is a square before/after composite with its labels low in the
+     frame — a gentler ratio + downward-biased crop keeps them from being cut off. */
+  .work-grid .tile:nth-child(1) img { aspect-ratio: 2 / 1; height: auto; object-position: center 78%; }
   .work-grid .tile:nth-child(2) img, .work-grid .tile:nth-child(4) img { aspect-ratio: 3 / 4; height: auto; }
   .work-grid .tile:nth-child(3) img, .work-grid .tile:nth-child(5) img { aspect-ratio: 4 / 3; height: auto; }
 
@@ -259,6 +299,9 @@
   .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--hairline-on-dark); }
   .footer-brand .brandmark-word { font-size: 1.3rem; }
   .footer-tagline { margin-top: 1.1rem; font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: rgba(250,248,243,0.7); max-width: 26ch; }
+  .footer-social { margin-top: 1.4rem; display: flex; gap: 0.9rem; }
+  .footer-social a { display: flex; align-items: center; justify-content: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 1px solid var(--hairline-on-dark); color: rgba(250,248,243,0.82); transition: color 0.25s var(--ease), border-color 0.25s var(--ease); }
+  .footer-social a:hover, .footer-social a:focus-visible { color: var(--teal-bright); border-color: var(--teal-bright); }
   .footer-col h4 { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-bright); margin: 0 0 1.1rem; font-family: var(--font-body); font-weight: 700; }
   .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
   .footer-col a { text-decoration: none; font-size: 0.9rem; color: rgba(250,248,243,0.82); }
@@ -279,7 +322,7 @@
   }
   @media (max-width: 560px) {
     .work-grid { grid-template-columns: 1fr; }
-    .work-grid .tile:nth-child(1) img { aspect-ratio: 16 / 9; }
+    .work-grid .tile:nth-child(1) img { aspect-ratio: 4 / 3; object-position: center 78%; }
     .footer-top { grid-template-columns: 1fr; }
     .contact-actions { flex-direction: column; align-items: stretch; }
   }
@@ -331,10 +374,10 @@
 
       <div class="hero-content" id="heroContent">
         <div class="hero-logo"><img src="logo.png" alt="Wizard Works — crossed pressure-washing wand and shovel mark"></div>
-        <p class="kicker on-dark hero-kicker">Concrete • Landscaping • Hardscaping</p>
+        <p class="kicker on-dark hero-kicker">Driveways • Landscaping • Hardscaping</p>
         <h1 class="hero-title">
           <span>Brought Back</span>
-          <span><em>to Light</em></span>
+          <span><em>to Life</em></span>
         </h1>
       </div>
 
@@ -349,7 +392,29 @@
     <div class="container">
       <p class="kicker">Our Approach</p>
       <p class="intro-lead" style="margin-top:1.1rem;">Every yard has good bones — it just needs <em>the right hands</em> to bring them out.</p>
-      <p class="intro-sub">Wizard Works handles the outdoor work that actually transforms a property: clean concrete flatwork, hardscaping that's built to last, and landscaping that gets maintained, not just installed. Commercial or residential, we treat every yard like it's the one we'll be back to next season.</p>
+      <p class="intro-sub">Wizard Works handles the outdoor work that actually transforms a property: driveways poured right, hardscaping that's built to last, and landscaping that gets maintained, not just installed. Commercial or residential, we treat every yard like it's the one we'll be back to next season.</p>
+    </div>
+  </section>
+
+  <section class="section section-paper ba-section">
+    <div class="container">
+      <p class="kicker">See The Difference</p>
+      <h2 style="margin-top:0.6rem; font-size:clamp(1.9rem, 3.6vw, 2.6rem);">Drag To Compare</h2>
+      <p class="ba-intro">Real yard, real transformation — drag the slider to see it for yourself.</p>
+      <div class="ba-slider" id="baSlider" role="slider" tabindex="0" aria-label="Before and after comparison slider — drag or use arrow keys" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+        <img class="ba-img ba-after" src="afterslider.jpg" alt="Side yard, after — clean mulched beds and tidy staircase area">
+        <div class="ba-before-wrap" id="baBeforeWrap">
+          <img class="ba-img ba-before" src="beforeslider.jpg" alt="Side yard, before — overgrown bed and cluttered staircase area">
+        </div>
+        <span class="ba-tag ba-tag-before">Before</span>
+        <span class="ba-tag ba-tag-after">After</span>
+        <div class="ba-handle" aria-hidden="true">
+          <span class="ba-handle-grip">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -358,28 +423,28 @@
       <div class="section-head">
         <p class="kicker">Recent Work</p>
         <h2>A Few Recent Transformations</h2>
-        <p>A sample of completed projects — drop your own project photography into <code>images/</code> to replace these.</p>
+        <p>A sample of completed projects from around the area.</p>
       </div>
       <div class="tile-grid work-grid">
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/gallery-1.jpg" alt="Recent project photo 1">
-          <div class="tile-caption"><p class="kicker">Hardscaping</p><h3>Patio &amp; Walkway Build</h3></div>
+          <img src="imagegate.jpg" alt="Gated driveway before and after — dirt path transformed into a finished gravel drive with new iron gate">
+          <div class="tile-caption"><p class="kicker">Hardscaping</p><h3>Gated Driveway Transformation</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/gallery-2.jpg" alt="Recent project photo 2">
-          <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Bed &amp; Border Reset</h3></div>
+          <img src="sidehousebefore.jpg" alt="Overgrown landscape bed along the side of a house, before">
+          <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Bed Install — Before</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/gallery-3.jpg" alt="Recent project photo 3">
-          <div class="tile-caption"><p class="kicker">Concrete</p><h3>Driveway Pour</h3></div>
+          <img src="sidehouseafter.jpg" alt="Clean mulched landscape bed along the side of a house, after">
+          <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Bed Install — After</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/gallery-4.jpg" alt="Recent project photo 4">
-          <div class="tile-caption"><p class="kicker">Landscaping</p><h3>Seasonal Cleanup</h3></div>
+          <img src="burgerkingbefore.jpg" alt="Overgrown commercial hedge line along a roadside, before">
+          <div class="tile-caption"><p class="kicker">Commercial</p><h3>Hedge Maintenance — Before</h3></div>
         </a>
         <a class="tile" href="#work" tabindex="0">
-          <img src="images/gallery-5.jpg" alt="Recent project photo 5">
-          <div class="tile-caption"><p class="kicker">Hardscaping</p><h3>Retaining Wall</h3></div>
+          <img src="burgerkingafter.jpg" alt="Trimmed commercial hedge line along a roadside, after">
+          <div class="tile-caption"><p class="kicker">Commercial</p><h3>Hedge Maintenance — After</h3></div>
         </a>
       </div>
     </div>
@@ -398,9 +463,9 @@
       </div>
       <div class="tile-grid services-grid">
         <div class="service-card">
-          <div class="tile"><img src="images/gallery-3.jpg" alt="Concrete service example"></div>
-          <h3>Concrete</h3>
-          <p>Driveways, patios, walkways, and pads — poured and finished to hold up under real use, not just look good on install day.</p>
+          <div class="tile"><img src="images/gallery-3.jpg" alt="Driveways service example"></div>
+          <h3>Driveways</h3>
+          <p>Concrete and gravel driveways poured, graded, and finished to hold up under real use — not just look good on install day.</p>
           <a class="service-link" href="#contact">Get a Quote →</a>
         </div>
         <div class="service-card">
@@ -458,6 +523,11 @@
         <span class="brandmark-word">Wizard Works</span>
       </a>
       <p class="footer-tagline">Your Yard, Our Magical Touch.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/thewizardwipes" target="_blank" rel="noopener" aria-label="Wizard Works on Facebook">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.89h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"></path></svg>
+        </a>
+      </div>
     </div>
     <div class="footer-col">
       <h4>Company</h4>
@@ -471,7 +541,7 @@
     <div class="footer-col">
       <h4>Services</h4>
       <ul>
-        <li><a href="#services">Concrete</a></li>
+        <li><a href="#services">Driveways</a></li>
         <li><a href="#services">Landscaping</a></li>
         <li><a href="#services">Hardscaping</a></li>
       </ul>
@@ -647,6 +717,52 @@
   });
   drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrawer(); });
+})();
+</script>
+
+<script>
+(function () {
+  var slider = document.getElementById('baSlider');
+  if (!slider) return;
+  var dragging = false;
+
+  function setPos(pct) {
+    pct = Math.max(0, Math.min(100, pct));
+    slider.style.setProperty('--pos', pct + '%');
+    slider.setAttribute('aria-valuenow', Math.round(pct));
+  }
+  function setFullWidth() {
+    slider.style.setProperty('--full-w', slider.getBoundingClientRect().width + 'px');
+  }
+  function pctFromClientX(clientX) {
+    var rect = slider.getBoundingClientRect();
+    return ((clientX - rect.left) / rect.width) * 100;
+  }
+
+  slider.addEventListener('pointerdown', function (e) {
+    dragging = true;
+    if (slider.setPointerCapture) slider.setPointerCapture(e.pointerId);
+    setPos(pctFromClientX(e.clientX));
+  });
+  slider.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    setPos(pctFromClientX(e.clientX));
+  });
+  ['pointerup', 'pointercancel'].forEach(function (evt) {
+    slider.addEventListener(evt, function () { dragging = false; });
+  });
+
+  slider.addEventListener('keydown', function (e) {
+    var current = parseFloat(slider.style.getPropertyValue('--pos')) || 50;
+    if (e.key === 'ArrowLeft') { setPos(current - 5); e.preventDefault(); }
+    else if (e.key === 'ArrowRight') { setPos(current + 5); e.preventDefault(); }
+    else if (e.key === 'Home') { setPos(0); e.preventDefault(); }
+    else if (e.key === 'End') { setPos(100); e.preventDefault(); }
+  });
+
+  setFullWidth();
+  setPos(50);
+  window.addEventListener('resize', setFullWidth);
 })();
 </script>
 
