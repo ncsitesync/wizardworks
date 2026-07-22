@@ -131,10 +131,8 @@
   .mobile-drawer a:hover, .mobile-drawer a:focus-visible { color: var(--teal-bright); }
 
   /* ---------- Hero ---------- */
-  /* Tall scroll container so there's distance to scrub the video through;
-     the inner wrapper pins via position:sticky while the page scrolls past it. */
-  .hero { position: relative; height: 150vh; background: var(--teal-deep); }
-  .hero-sticky { position: sticky; top: 0; height: 100svh; min-height: 100vh; overflow: hidden; }
+  .hero { position: relative; height: 100svh; min-height: 100vh; overflow: hidden; background: var(--teal-deep); }
+  .hero-sticky { position: relative; height: 100%; }
   .hero-media { position: absolute; inset: 0; }
   .hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
   .hero-veil { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(6,47,48,0.42) 0%, rgba(6,47,48,0.28) 45%, rgba(6,47,48,0.55) 100%); }
@@ -366,7 +364,7 @@
     <a id="top"></a>
     <div class="hero-sticky" id="heroSticky">
       <div class="hero-media" id="heroMedia">
-        <video id="heroVideo" muted playsinline webkit-playsinline="true" preload="auto" aria-hidden="true">
+        <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline="true" preload="auto" aria-hidden="true">
           <source src="herovideo.mp4" type="video/mp4">
         </video>
         <div class="hero-veil"></div>
@@ -572,7 +570,6 @@
   var hero = document.getElementById('hero');
   var heroContent = document.getElementById('heroContent');
   var video = document.getElementById('heroVideo');
-  var videoReady = false;
 
   /* Entrance: logo eases in, then kicker + title fade up in sequence */
   if (reduceMotion) {
@@ -584,97 +581,40 @@
     });
   }
 
-  /* The video only ever moves because currentTime is set from scroll position
-     — wait for loadedmetadata (valid duration) before scrubbing starts. */
-  video.addEventListener('loadedmetadata', function () {
-    if (video.duration && !isNaN(video.duration) && video.duration > 0) {
-      videoReady = true;
-    }
-  });
-
-  /* Mobile can silently ignore preload hints — force it. */
-  try { video.load(); } catch (e) {}
-
-  /* iOS won't seek/render a video that hasn't been "activated" by a real
-     play() call from inside a user-gesture handler, even muted+playsinline.
-     Unlock once on first touch/scroll: play() then immediately pause(), with
-     the scrub loop blocked from touching currentTime while that's in flight
-     so no frame of real playback is ever visible. */
-  var unlocked = false;
-  var unlocking = false;
-  function unlockVideo() {
-    if (unlocked) return;
-    unlocked = true;
-    unlocking = true;
-    try {
-      var p = video.play();
-      function finish() {
-        try { video.pause(); } catch (e) {}
-        unlocking = false;
-      }
-      if (p && typeof p.then === 'function') { p.then(finish).catch(finish); }
-      else { finish(); }
-    } catch (e) {
-      unlocking = false;
-    }
-  }
-  window.addEventListener('touchstart', unlockVideo, { once: true, passive: true });
-  window.addEventListener('scroll', unlockVideo, { once: true, passive: true });
-
-  /* Fallback: some mobile browsers never resolve a usable duration at all.
-     If we're still not ready after ~1.5s, try a poster image — but only if
-     it actually exists (probe first so we never leave a 404'd reference).
-     If it doesn't exist, the video element is left exactly as-is; nothing
-     hides it, so it keeps showing whatever it has rather than going blank. */
-  setTimeout(function () {
-    if (videoReady) return;
+  /* Reduced motion: don't autoplay the loop — show a static frame instead.
+     Only set a poster if one actually exists (probe first so we never leave
+     a 404'd reference); otherwise just pause on whatever frame loads. */
+  if (reduceMotion) {
+    video.removeAttribute('autoplay');
+    try { video.pause(); } catch (e) {}
     var probe = new Image();
     probe.onload = function () { video.poster = 'hero-poster.jpg'; };
     probe.src = 'hero-poster.jpg';
-  }, 1500);
+  }
 
-  /* progress = clamp((scrollY - heroTop) / (heroHeight - viewportHeight), 0, 1).
-     Driven by a continuously self-scheduling requestAnimationFrame loop that
-     lerps a displayTime toward the scroll-derived target by ~0.15 per frame,
-     so seeking eases smoothly instead of snapping. */
-  var heroTop = 0, heroHeight = 0, viewportHeight = 0;
+  /* Logo + text ease/fade out as you scroll past the hero. progress = clamp
+     ((scrollY - heroTop) / heroHeight, 0, 1) — the video itself just loops
+     continuously and is untouched by scroll. */
+  var heroTop = 0, heroHeight = 0;
   function measure() {
     var rect = hero.getBoundingClientRect();
     heroTop = rect.top + window.scrollY;
     heroHeight = hero.offsetHeight;
-    viewportHeight = window.innerHeight;
   }
   measure();
   window.addEventListener('resize', measure);
 
-  var displayTime = 0;
-  var lastAppliedTime = -1;
-  var lastLoggedProgress = -1;
-  var lastLoggedTime = -1;
-  var LERP = 0.15;
-  var SEEK_EPS = 0.004;
-
   function easeInCubic(t) { return t * t * t; }
 
-  function frameStep() {
-    var range = heroHeight - viewportHeight;
-    var progress = range > 0 ? Math.min(Math.max((window.scrollY - heroTop) / range, 0), 1) : 0;
+  var ticking = false;
+  function updateFade() {
+    ticking = false;
+    var progress = heroHeight > 0 ? Math.min(Math.max((window.scrollY - heroTop) / heroHeight, 0), 1) : 0;
 
     topbar.classList.toggle('scrolled', progress > 0.6);
 
-    var hasDuration = videoReady && video.duration && !isNaN(video.duration) && video.duration > 0;
-    if (hasDuration && !unlocking) {
-      var targetTime = progress * video.duration;
-      displayTime += (targetTime - displayTime) * LERP;
-      if (Math.abs(targetTime - displayTime) < 0.005) displayTime = targetTime; // snap the last sliver so it fully settles
-      if (Math.abs(displayTime - lastAppliedTime) > SEEK_EPS) {
-        video.currentTime = displayTime;
-        lastAppliedTime = displayTime;
-      }
-    }
-
-    /* Logo + text hold for the first ~60% of the scrub, then ease out
-       (easeInCubic) over the last ~40% as the real content below arrives. */
+    /* Content holds for the first ~60% of the scroll-past-hero distance,
+       then eases out (easeInCubic) over the last ~40%. */
     if (!reduceMotion) {
       var local = progress > 0.6 ? Math.min((progress - 0.6) / 0.4, 1) : 0;
       var eased = easeInCubic(local);
@@ -682,21 +622,15 @@
       heroContent.style.transform = 'translateY(' + (-60 * eased) + 'px)';
       heroContent.style.filter = 'blur(' + (5 * eased) + 'px)';
     }
-
-    /* Log on real change — either progress moved, or the lerp is still
-       catching displayTime up to a new target — so the last logged line
-       always reflects the true settled currentTime, not a stale mid-lerp one. */
-    var curTimeForLog = hasDuration ? video.currentTime : -1;
-    if (Math.abs(progress - lastLoggedProgress) > 0.001 || Math.abs(curTimeForLog - lastLoggedTime) > 0.005) {
-      lastLoggedProgress = progress;
-      lastLoggedTime = curTimeForLog;
-      console.log('[hero scrub] progress=' + progress.toFixed(3) + ' currentTime=' + (hasDuration ? video.currentTime.toFixed(2) : 'n/a (video not ready)'));
-    }
-
-    window.requestAnimationFrame(frameStep);
   }
-
-  window.requestAnimationFrame(frameStep);
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(updateFade);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  updateFade();
 
   /* Mobile menu */
   var hamburger = document.getElementById('hamburger');
